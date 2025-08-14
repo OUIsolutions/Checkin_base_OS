@@ -53,4 +53,3 @@ local function detect_base()
   return -1
 end
 
-print(detect_base())
