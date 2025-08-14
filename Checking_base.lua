@@ -7,6 +7,15 @@
 --  4 Gentoo
 --  5 Solus
 
+
+IS_BASE_NOT_FOUND = -1
+IS_BASE_ARCH = 0
+IS_BASE_DEBIAN = 1
+IS_BASE_REDHAT = 2
+IS_BASE_ALPINE = 3
+IS_BASE_GENTOO = 4
+IS_BASE_SOLUS = 5
+
 local function detect_base()
   local function readfile(path)
     local f = io.open(path, "r")
