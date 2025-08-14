@@ -99,6 +99,5 @@ local function get_linux_name()
     return "Unknown Linux"
 end
 
-print(get_linux_name())
 
 
