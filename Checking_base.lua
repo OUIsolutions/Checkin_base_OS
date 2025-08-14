@@ -62,3 +62,43 @@ local function detect_base()
   return -1
 end
 
+local function get_linux_name()
+    local function readfile(path)
+        local f = io.open(path, "r")
+        if not f then return "" end
+        local content = f:read("*a")
+        f:close()
+        return content
+    end
+
+    -- 1. Tenta via /etc/os-release
+    local os_release = readfile("/etc/os-release")
+    if os_release ~= "" then
+        local name = os_release:match('^NAME="?(.-)"?$') or os_release:match('\nNAME="?(.-)"?$')
+        if name then
+            return name
+        end
+    end
+
+    -- 2. Fallback: arquivos clássicos
+    local files = {
+        "/etc/arch-release",
+        "/etc/debian_version",
+        "/etc/redhat-release",
+        "/etc/alpine-release",
+        "/etc/gentoo-release",
+        "/etc/solus-release"
+    }
+    for _, file in ipairs(files) do
+        local content = readfile(file)
+        if content ~= "" then
+            return (file .. ": " .. content:gsub("\n", ""))
+        end
+    end
+
+    return "Unknown Linux"
+end
+
+print(get_linux_name())
+
+
